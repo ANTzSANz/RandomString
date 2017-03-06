@@ -1,13 +1,28 @@
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RandomString {
+
+	public static Logger logger = Logger.getLogger(RandomString.class.getName());
+
 	public static void main(String[] args) {
 		String randomString = getRandomString();
-		System.out.println(randomString);
+		// System.out.println(randomString);
+		logger.log(Level.INFO, randomString);
 		String editedString = addingAtToRandomString(randomString);
+		logger.log(Level.INFO, editedString);
 		
-		ArrayList<String> rndString = new ArrayList<>();
-		rndString.
+		StringCollection strCollection = new StringCollection();
+		
+		for(int i = 0; i<10; i++){
+			strCollection.addToStringCollection(addingAtToRandomString(getRandomString()));
+			
+		}
+		
+		for(String elementOfCollection: strCollection.getAllRndString()){
+			logger.log(Level.INFO, "Element is - " + elementOfCollection);
+		}
 	}
 
 	public static String getRandomString() {
@@ -33,8 +48,9 @@ public class RandomString {
 		String editedString = "";
 
 		editedString = randomString + "@";
-
+		System.out.println(editedString);
 		return editedString;
+
 	}
 
 }
