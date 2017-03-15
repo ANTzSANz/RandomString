@@ -57,6 +57,10 @@ public class ShowOurWorkBySide {
 			
 		for (Lesson lsn: lessonsForDay){
 				System.out.println(lsn.getLessonSubject());
+				
+				lsn.getGroup();
+				System.out.println("Group - " + lsn.getGroup().getName()+" has "+lsn.getGroup().getGroup().size());
+			
 				Date date = new Date(); 
 				date.setTime(lsn.getStartOfLesson());
 				SimpleDateFormat formating = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss"); 
@@ -67,14 +71,14 @@ public class ShowOurWorkBySide {
 		}
 
 		Group group = getGroup();
+	
+		 System.out.println(group.getName());
+	System.out.println(group.getGroup().size()); for(Student
+		 student:group.getGroup()){ System.out.println(student.getLogin()); }
 		/*
-		 * System.out.println(group.getName());
-		 * System.out.println(group.getGroup().size()); for(Student
-		 * student:group.getGroup()){ System.out.println(student.getLogin()); }
-		 * 
-		 * for(int i=0; i<12; i++){ Student student = getRndStudent();
-		 * groupST19.addToGroup(student);
-		 */
+		for(int i=0; i<12; i++){ Student student = getRndStudent();
+		groupST19.addToGroup(student);
+		*/
 
 		Teacher teacher = new Teacher();
 		/*
@@ -109,5 +113,13 @@ public class ShowOurWorkBySide {
 		 * SimpleDateFormat("YYYY/MM/dd HH:mm:ss"); String dateAsString =
 		 * formating.format(date); System.out.println(dateAsString);
 		 */
+	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
+
+	public static void setLogger(Logger logger) {
+		ShowOurWorkBySide.logger = logger;
 	}
 }
