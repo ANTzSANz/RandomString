@@ -9,13 +9,20 @@ public class TestSel {
 
 		WebDriver webdr = new FirefoxDriver();
 		
+		
+		
+		
+		
+		
+		
+/*
 		try {
-			Thread.sleep(20*1000);
+			Thread.sleep(20 * 1000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
-
+*/
 		webdr.quit();
 
 	}
