@@ -84,7 +84,7 @@ public class RandomStringTest {
 
 			}
 
-			assertEquals(true, (indexOfPoint < indexOfAt));
+			assertEquals(true, (indexOfPoint > indexOfAt));
 
 		}
 
