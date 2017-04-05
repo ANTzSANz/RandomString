@@ -1,32 +1,38 @@
-public class RandomString {
-	public static String getRandomString() {
-		String returnedString = "";
-		String stringSymbols = "abcdefghijklmnopqrstyvwxyzABCDEFGHIGKLMNOPQRSTUVWXYZ";
-		char[] symbols = stringSymbols.toCharArray();
-		int randomLength = getRandomNumber(8, 16);
-		for (int i = 0; i < randomLength; i++) {
-			int randomIndex = getRandomNumber(0, symbols.length);
-			returnedString = returnedString + symbols[randomIndex];
-		}
-		return returnedString;
-	}
+package somePackage;
 
-	public static int getRandomNumber(int min, int max) {
-		int randomNumber = (int) (min + Math.random() * (max - min));
-		return randomNumber;
+import java.util.ArrayList;
+
+public class RandomAccount {
+
+	public static String getRandomName(int index) {
+		String name = "";
+		ArrayList<String> names = new ArrayList<>();
+		names.add("Alexandr");
+		names.add("Olga");
+		names.add("Michael");
+		names.add("Milena");
+		names.add("Roman");
+		names.add("Elena");
+		names.add("Victor");
+		names.add("Georg");
+		names.add("Andrey");
+		names.add("Anastasia");
+		names.add("Vlad");
+		names.add("Mark");
+		if(index >= names.size()){
+			index = getRandomNumber(0, (names.size()-1));
+		}
+		name = names.get(index);
+		return name;
 	}
-/*
-	public static String addingAtToRandomString(String randomString) {
-		String editedString = "";
-		editedString = randomString + "@";
-		return editedString;
-	}
-*/
+	
 	public static String getRandomAccEmail(String accountName) {
+
 		int randomDomainIndex;
 		// random case for domain choose
-		randomDomainIndex = 1 + (int) (Math.random() * (6 - 1));
+		randomDomainIndex = 1 + (int) (Math.random() * 5);
 		String randomEmail = accountName;
+		
 		switch (randomDomainIndex) {
 		case 1:
 			randomEmail = randomEmail + "@gmail.com";
@@ -42,7 +48,7 @@ public class RandomString {
 			break;
 		case 5:
 			randomEmail += "@zoho.eu";
-			break;
+			break;	
 		default:
 			randomEmail += "@gmail.com";
 			break;
@@ -50,4 +56,9 @@ public class RandomString {
 		return randomEmail;
 	}
 	
+	public static int getRandomNumber(int min, int max) {
+		int randomNumber = (int) (min + (Math.random() * (max - min)+1));
+		return randomNumber;
+	}
+
 }

@@ -1,66 +1,48 @@
-
+package somePackage;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ShowOurWorkBySide {
 
-	private static Logger log = Logger.getLogger(ShowOurWorkBySide.class.getName());
-
-	public static Student getRndStudent() {
+	// method returns student
+	public static Student getRndStudent(int index){
 		Student student = new Student();
-		student.setName(RandomString.getRandomString());
-		student.setLogin(RandomString.getRandomAccEmail(student.getName()));
-		student.setLastLogin(System.currentTimeMillis());
-		student.setPassword("123456");
+		student.setName(RandomAccount.getRandomName(index));
+		student.setLogin(RandomAccount.getRandomAccEmail(student.getName()));
 		return student;
 	}
-
-	public static Group getGroup() {
+	
+	// method returns group of students
+	public static Group getGroup(String name){
 		Group group = new Group();
-		group.setName(RandomString.getRandomString());
-		for (int i = 0; i < 12; i++) {
-			Student student = getRndStudent();
+		group.setName(name);
+		for(int i=0; i<12; i++){
+			Student student = getRndStudent(12-i);
 			group.addToGroup(student);
-
 		}
 		return group;
 	}
-
-	public static Teacher getTeacher() {
+	
+	// method returns teacher
+	public static Teacher getTeacher(){
 		Teacher teacher = new Teacher();
-		teacher.setName(RandomString.getRandomString());
-		teacher.setLogin(RandomString.getRandomAccEmail(teacher.getName()));
-		teacher.setLastLogin(System.currentTimeMillis());
-		teacher.setPassword("654321");
+		teacher.setName("Teacher"+RandomAccount.getRandomName(0));
+		teacher.setLogin(RandomAccount.getRandomAccEmail(teacher.getName()));
 		return teacher;
 	}
-
-	public static Lesson getLesson() {
-		Lesson lesson = new Lesson();
-		lesson.setLessonSubject("lesson");
-		lesson.setTeacher(getTeacher());
-		lesson.setGroup(getGroup());
-		lesson.setLenghtOfLesson(1000 * 60 * 45);
-		lesson.setStartOfLesson(System.currentTimeMillis());
-		return lesson;
-	}
-
-	public static long getCorrectTime(long dayInMills) {
-		long correctTime = 0;
-		Date date = new Date();
-		date.setTime(dayInMills);
+	
+	// method returns time of first lesson in millis
+	public static long getCorrectTime(long dayInMills){
+		long correctTime=0;
 		GregorianCalendar gc = new GregorianCalendar();
-		gc.setTime(date);
+		gc.setTimeInMillis(dayInMills);
 		int day = gc.get(gc.DAY_OF_WEEK);
-		if (day == 7 || day == 1) {
+		if(day==7 || day==1){
 			System.out.println("It's a week end!");
 			return correctTime;
-		} else {
+		} else{
 			int dayOfMonth = gc.get(gc.DAY_OF_MONTH);
 			int month = gc.get(gc.MONTH);
 			int year = gc.get(gc.YEAR);
@@ -70,129 +52,114 @@ public class ShowOurWorkBySide {
 		}
 		return correctTime;
 	}
-
-	public static ArrayList<Lesson> getLessonsForDay(long dayInMills) {
+	
+	// method returns list of lessons for a day
+	public static ArrayList<Lesson> getLessonsForDay(long dayInMills){
+		// create list of lessons
+		// it's empty
+		// lets fill it
+		
 		ArrayList<Lesson> lessons = new ArrayList<>();
-		// new array of subjects
-		ArrayList<String> subjects = new ArrayList<>();
-		subjects.add("Algebra");
-		subjects.add("Physics");
-		subjects.add("Geometry");
-		subjects.add("Discrete mathematics");
-		subjects.add("Statistics");
-		subjects.add("Graphics");
-		subjects.add("Computer science");
-		subjects.add("History");
-		subjects.add("History og Arts");
-		subjects.add("English");
-
+		
+		// set time for first lesson
 		long timeOfFirstLesson = getCorrectTime(dayInMills);
-		if (timeOfFirstLesson == 0) {
+		if(timeOfFirstLesson==0){
 			System.out.println("I said - it's a week end!!!");
-		} else {
-
+		}else{
+			
+			// new array of subjects
+			ArrayList<String> subjects = new ArrayList<>();
+			subjects.add("Algebra");
+			subjects.add("Physics");
+			subjects.add("Geometry");
+			subjects.add("Discrete mathematics");
+			subjects.add("Statistics");
+			subjects.add("Graphics");
+			subjects.add("Computer science");
+			subjects.add("History");
+			subjects.add("History og Arts");
+			subjects.add("English");
+			
+			// set teacher
 			ArrayList<Teacher> teachers = new ArrayList<>();
-
-			for (int j = 0; j < 10; j++) {
+			
+			// create 10 different teachers
+			for(int j=0; j<10; j++){
 				Teacher teacher = new Teacher();
-				teacher.setName(RandomString.getRandomString());
-				teacher.setLogin(RandomString.getRandomAccEmail(teacher.getName()));
+				// set name_Teacher
+				teacher.setName(RandomAccount.getRandomName(j)+"_Teacher");
+				teacher.setLogin(RandomAccount.getRandomAccEmail(teacher.getName()));
+				// set subject
 				teacher.setSubject(subjects.get(j));
-				teacher.setLastLogin(System.currentTimeMillis());
-				teacher.setPassword("123456789");
 				teachers.add(teacher);
 			}
-
-			Group group1 = getGroup();
-			Group group2 = getGroup();
-
-			for (int i = 0; i < getRandomNumber(4, 7); i++) {
-				Lesson lesson = new Lesson();
-
-				if (i % 2 == 0) {
+			
+			// create 2 groups
+			Group group1 = getGroup("Group1");
+			Group group2 = getGroup("Group2");
+			
+			// choose group one after other
+			// and set it for lesson
+			for(int i=0; i<getRandomNumber(4,7); i++){
+				Lesson lesson = new Lesson(); 
+				
+				// set teacher from list above
+				lesson.setTeacher(teachers.get(i));
+				
+				// set lesson subject as teacher has
+				lesson.setLessonSubject(teachers.get(i).getSubject());
+				
+				// set group
+				if(i%2==0){
 					lesson.setGroup(group2);
-				} else {
+				} else{
 					lesson.setGroup(group1);
 				}
+				
+				// set 15 minutes as break
+				long lessonBreak = 1000*60*15; 
 
+				// set 1 hour as length of lesson
+				lesson.setLengthOfLesson(1000*60*60); 
+				
+				// set start of every lesson
+				lesson.setStartOfLesson(timeOfFirstLesson + (i*(lessonBreak+lesson.getLengthOfLesson())));
+				
+				// add lesson to list
+				lessons.add(lesson);
 			}
-
 		}
 		return lessons;
 	}
+	
 
 	private static int getRandomNumber(int min, int max) {
 		int number;
-		number = (int) (min + (Math.random() * (max - min) + 1));
+		number = (int) (min + (Math.random()*(max-min)+1));
 		return number;
 	}
 
-	public static void main(String[] args) {
-
-		ArrayList<Lesson> lessonsForDay = new ArrayList<>();
-		lessonsForDay = getLessonsForDay(System.currentTimeMillis());
-
-		Date date = new Date();
-		date.setTime(getCorrectTime(System.currentTimeMillis()));
-		SimpleDateFormat formating = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
-		String dateAsString = formating.format(date);
-		System.out.println(dateAsString);
-
-		/*
-		 * 
-		 * for(long i=0; i<5; i++){ Lesson lesson = getLesson();
-		 * lesson.setLessonSubject(lesson.getLessonSubject()+(i+1));
-		 * lesson.setStartOfLesson(lesson.getStartOfLesson() -
-		 * (i*(lesson.getLengthOfLesson()+(15*60*1000))));
-		 * lessonsForDay.add(lesson); }
-		 * 
-		 * 
-		 * 
-		 * 
-		 * for(Lesson lsn: lessonsForDay){
-		 * System.out.println(lsn.getLessonSubject()); lsn.getLsnGroup();
-		 * System.out.println("Group - "+lsn.getLsnGroup().getName()+" has "+
-		 * lsn.getLsnGroup().getGroup().size() + "students");
-		 * 
-		 * 
-		 * Date date = new Date(); date.setTime(lsn.getStartOfLesson());
-		 * SimpleDateFormat formating = new
-		 * SimpleDateFormat("YYYY/MM/dd HH:mm:ss"); String dateAsString =
-		 * formating.format(date); System.out.println(dateAsString); }
-		 * 
-		 * Accounts rndAccounts = new Accounts();
-		 * 
-		 * 
-		 * for(int i=0; i<15; i++){ Account account = new Account();
-		 * account.setName(new RandomString().getRandomString()); String atMail
-		 * = new RandomString().addingAtToRandomString(account.getName());
-		 * account.setLogin(new RandomString().getRandomAccEmail(atMail));
-		 * //account.setLogin(login); account.setPassword("123456789");
-		 * account.setLastLogin(System.currentTimeMillis());
-		 * rndAccounts.addToAccCollection(account); }
-		 * 
-		 * logger.log(Level.INFO,
-		 * "Size of collection is "+rndAccounts.getAllRndAccounts().size()
-		 * +" elements"); for(Account accElement :
-		 * rndAccounts.getAllRndAccounts()){ logger.log(Level.INFO,
-		 * "Account name - "+accElement.getName()+"\n"+
-		 * "Account login - "+accElement.getLogin()+"\n"+
-		 * "Account password - "+accElement.getPassword()+"\n"+
-		 * "Account last login - "+accElement.getLastLogin()); }
-		 * 
-		 * 
-		 * Date date = new Date(); date.setTime(account.getLastLogin());
-		 * SimpleDateFormat formating = new
-		 * SimpleDateFormat("YYYY/MM/dd HH:mm:ss"); String dateAsString =
-		 * formating.format(date); System.out.println(dateAsString);
-		 */
+	
+	
+	public static void main(String[] args){
+		
+		// get lessons for current day
+		ArrayList<Lesson> lessonsForDay = getLessonsForDay(System.currentTimeMillis());
+		
+		// lets check it
+		for (Lesson lesson : lessonsForDay) {
+			System.out.println(lesson.getLessonSubject());
+			System.out.println(lesson.getTeacher().getLogin());
+			System.out.println(lesson.getLsnGroup().getName());
+			Date date = new Date();
+			date.setTime(lesson.getStartOfLesson());
+			SimpleDateFormat formating = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
+			String dateAsString = formating.format(date);   
+			System.out.println(dateAsString);
+			System.out.println("----------------------------------------------");
+		}
+		
+			
 	}
 
-	public static Logger getLog() {
-		return log;
-	}
-
-	public static void setLog(Logger log) {
-		ShowOurWorkBySide.log = log;
-	}
 }

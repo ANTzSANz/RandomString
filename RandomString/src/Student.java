@@ -1,4 +1,5 @@
+package somePackage;
 
-public class Student extends Account {
-
+public class Student extends Account{
+	
 }

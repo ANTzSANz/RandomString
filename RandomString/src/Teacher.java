@@ -1,7 +1,7 @@
+package somePackage;
 
+public class Teacher extends Account{
 
-public class Teacher extends Account {
-	
 	private String subject;
 
 	public String getSubject() {
@@ -12,5 +12,4 @@ public class Teacher extends Account {
 		this.subject = subject;
 	}
 	
-
 }
